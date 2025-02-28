@@ -1,0 +1,25 @@
+1. Mong muốn và định hướng của bạn là gì sau khi học xong môn học là gì?
+  Em mong mình có thể hiểu và tạo nên một ứng dụng trên điện thoại, nhằm tích lũy thêm kinh nghiệm, khả năng làm việc nhóm, quy trình sản xuất sản phẩm phần mềm mobile.
+  Định hướng của em khi học xong môn học này là có thể tạo một ứng dụng mobile có thể dùng trong thực tế, một ứng dụng đơn giản như đặt vé xe khách,...
+
+2. Theo bạn, trong tương lai gần(10 năm) lập trình di động có phát triển không? Giải thích tại sao?
+
+  Theo em trong 10 năm tới, lập trình di động có khả năng phát triển mạnh mẽ.
+
+  Bởi vì:
+
+    1. Sự gia tăng sử dụng thiết bị di động: Số lượng người dùng smartphone và tablet đang tăng lên nhanh chóng, đặc biệt ở các thị trường đang phát triển. Điều này tạo ra nhu cầu lớn cho các ứng dụng di động.
+
+    2. Công nghệ 5G: Sự phổ biến của mạng 5G sẽ cải thiện tốc độ và độ tin cậy của kết nối di động, cho phép phát triển các ứng dụng có tính năng phong phú hơn, như thực tế ảo (VR) và thực tế tăng cường (AR).
+
+    3. Nâng cao trải nghiệm người dùng: Các công nghệ mới như trí tuệ nhân tạo (AI) và máy học (ML) sẽ giúp các lập trình viên phát triển ứng dụng thông minh hơn, có khả năng cá nhân hóa và cải thiện trải nghiệm người dùng.
+
+    4. Nhu cầu về ứng dụng đa nền tảng: Việc phát triển các ứng dụng có thể chạy trên nhiều hệ điều hành khác nhau (như Android và iOS) sẽ ngày càng trở nên phổ biến, nhờ vào các công cụ như React Native và Flutter.
+
+    5. Tích hợp IoT: Sự phát triển của Internet of Things (IoT) sẽ mở ra nhiều cơ hội cho các ứng dụng di động mới, từ quản lý nhà thông minh đến chăm sóc sức khỏe.
+
+    6 .Thay đổi trong cách làm việc: Xu hướng làm việc từ xa sẽ thúc đẩy nhu cầu về các ứng dụng hỗ trợ công việc và giao tiếp, tạo cơ hội cho các nhà phát triển.
+
+  Tóm lại, với sự phát triển công nghệ và nhu cầu ngày càng cao từ người dùng, lập trình di động chắc chắn sẽ tiếp tục phát triển mạnh mẽ trong tương lai gần.
+
+3. Viết một Ứng dụng có UI như sau sau đó đẩy lên github.
