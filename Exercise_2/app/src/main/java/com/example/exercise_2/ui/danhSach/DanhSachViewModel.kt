@@ -1,13 +1,13 @@
-package com.example.exercise_2.ui.notifications
+package com.example.exercise_2.ui.danhSach
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class NotificationsViewModel : ViewModel() {
+class DanhSachViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
+        value = "Chưa có gì đâu dừng soi"
     }
     val text: LiveData<String> = _text
 }
