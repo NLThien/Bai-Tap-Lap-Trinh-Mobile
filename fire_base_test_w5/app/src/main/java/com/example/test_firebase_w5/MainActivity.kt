@@ -4,13 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.Nullable
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -25,9 +19,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.navigation.compose.composable
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx. compose. runtime. LaunchedEffect
 
 import com.example.test_firebase_w5.ui.screen.StartScreen
 import com.example.test_firebase_w5.ui.screen.HomeScreen
+import com.example.test_firebase_w5.ui.screen.AuthViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,19 +34,28 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Test_firebase_w5Theme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-//                    color = MaterialTheme.colorScheme.surfaceBright
-                ) {
+                Surface(modifier = Modifier.fillMaxSize()) {
                     val navController = rememberNavController()
+                    val authViewModel: AuthViewModel = viewModel() // Thêm dòng này
 
-                    // Navigation quản lý điều hướng
-                    NavHost(navController = navController, startDestination = "Start") {
+                    NavHost(
+                        navController = navController,
+                        startDestination = if (Firebase.auth.currentUser != null) "Home" else "Start"
+                    ) {
                         composable("Start") {
-                            StartScreen(OnSignInClick = { navController.navigate("Home") })
+                            StartScreen(navController, authViewModel) // Truyền viewModel
                         }
                         composable("Home") {
-                            HomeScreen(OnBackClick = { navController.popBackStack() },navController)
+                            HomeScreen(
+                                OnBackClick = {
+                                    Firebase.auth.signOut()
+                                    navController.navigate("Start") {
+                                        popUpTo("Home") { inclusive = true }
+                                    }
+                                },
+                                navController = navController,
+                                authViewModel = authViewModel // Truyền viewModel
+                            )
                         }
                     }
                 }
@@ -61,7 +69,7 @@ fun MainContent(NavController: NavController) {
     var currentScreen by remember { mutableStateOf("StartScreen") }
 
     when (currentScreen) {
-        "StartScreen" -> StartScreen(OnSignInClick = { currentScreen = "HomeScreen" })
+        "StartScreen" -> StartScreen(navController = rememberNavController())
         "HomeScreen" -> HomeScreen(
             OnBackClick = { currentScreen = "StartScreen"},
             navController = NavController
@@ -69,12 +77,11 @@ fun MainContent(NavController: NavController) {
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun StartScreenPreview() {
     Test_firebase_w5Theme {
-        StartScreen(OnSignInClick = { })
+        StartScreen(navController = rememberNavController())
     }
 }
 
@@ -82,6 +89,9 @@ fun StartScreenPreview() {
 @Composable
 fun HomeScreenPreview() {
     Test_firebase_w5Theme {
-        HomeScreen(OnBackClick = { }, navController = rememberNavController())
+        HomeScreen(
+            OnBackClick = {},
+            navController = rememberNavController(),
+        )
     }
 }
