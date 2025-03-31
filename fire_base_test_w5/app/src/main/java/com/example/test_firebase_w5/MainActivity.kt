@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
             Test_firebase_w5Theme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+//                    color = MaterialTheme.colorScheme.surfaceBright
                 ) {
                     val navController = rememberNavController()
 

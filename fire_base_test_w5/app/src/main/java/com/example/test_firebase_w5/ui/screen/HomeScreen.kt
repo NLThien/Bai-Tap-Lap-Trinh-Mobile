@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -43,7 +44,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.test_firebase_w5.ui.theme.Test_firebase_w5Theme
-import kotlinx.coroutines.delay
 import com.example.test_firebase_w5.R
 import androidx.lifecycle.viewmodel.compose.viewModel
 
@@ -51,13 +51,16 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 fun HomeScreen(OnBackClick: () -> Unit, navController: NavController) {
     Column(
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.background)
+//            .background(MaterialTheme.colorScheme.surfaceBright)
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
+            .statusBarsPadding(),   // tránh đè lên status bar
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         TopBar("Profile", navController)
+
+        Spacer(modifier = Modifier.height(80.dp))
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -107,12 +110,12 @@ fun HomeScreen(OnBackClick: () -> Unit, navController: NavController) {
             onClick = OnBackClick,
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF007BFF)),
             modifier = Modifier
-                .height(60.dp)
-                .fillMaxWidth(),
+                .height(50.dp)
+                .fillMaxWidth(0.8f),
         ) {
             Text(
                 text = "Back", color = Color.White,
-                fontSize = 32.sp,)
+                fontSize = 20.sp,)
         }
     }
 }

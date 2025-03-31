@@ -42,14 +42,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.test_firebase_w5.ui.theme.Test_firebase_w5Theme
-import kotlinx.coroutines.delay
 import com.example.test_firebase_w5.R
 
 @Composable
 fun StartScreen(OnSignInClick: () -> Unit ) {
     Column (
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.background)
+//            .background(MaterialTheme.colorScheme.surfaceBright)
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

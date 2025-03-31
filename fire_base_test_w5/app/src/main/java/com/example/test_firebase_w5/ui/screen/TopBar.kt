@@ -34,7 +34,7 @@ fun TopBar(title: String, navController: NavController) {
             contentDescription = "Back Icon",
             modifier = Modifier
                 .padding(start = 8.dp)
-                .size(48.dp)
+                .requiredSize(48.dp)
                 .clickable {
                     navController.popBackStack() // Quay lại màn hình trước
                 }
@@ -60,7 +60,6 @@ fun TopBar(title: String, navController: NavController) {
 @Composable
 fun TopBarPreview() {
     Test_firebase_w5Theme {
-        // Trong preview, NavController không cần thiết, nên dùng giả lập
         TopBar(title = "Detail", navController = rememberNavController())
     }
 }
