@@ -1,7 +1,6 @@
 package com.example.test_firebase_w5.ui.screen
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,141 +8,170 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.outlined.PhotoCamera
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.example.test_firebase_w5.ui.theme.Test_firebase_w5Theme
-import com.example.test_firebase_w5.R
-import androidx.compose.runtime.LaunchedEffect
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.firebase.auth.FirebaseAuth
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.background
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.remember
-import com.example.test_firebase_w5.ui.screen.AuthViewModel
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.material3.AlertDialog
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 
 @Composable
 fun HomeScreen(
-    OnBackClick: () -> Unit,
     navController: NavController,
-    authViewModel: AuthViewModel = viewModel()
+    auth: FirebaseAuth
 ) {
-    val currentUser by authViewModel.currentUser // Sử dụng delegate
-    var isLoading by remember { mutableStateOf(false) }
-    var birthday by remember { mutableStateOf("Đang tải...") }
+    val user = auth.currentUser
+    var showDialog by remember { mutableStateOf(false) } // State cho Dialog
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("Thông báo") },
+            text = { Text("Chức năng chưa phát triển") },
+            confirmButton = {
+                Button(
+                    onClick = { showDialog = false }
+                ) {
+                    Text("OK")
+                }
+            }
+        )
+    }
 
     Column(
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.background)
             .fillMaxSize()
-            .padding(16.dp)
-            .statusBarsPadding(),   // tránh đè lên status bar
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopBar("Profile", navController)
 
-        Spacer(modifier = Modifier.height(80.dp))
+        TopBar("Profile",navController = navController)
 
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.logo_firebase_w5),
-                contentDescription = "Easy Time Management",
-                modifier = Modifier.size(100.dp)
+        Spacer(modifier = Modifier.height(20.dp))
+
+        // Profile picture from Firebase
+        Box(contentAlignment = Alignment.BottomEnd) {
+            AsyncImage(
+                model = user?.photoUrl ?: "https://example.com/default_avatar.png",
+                contentDescription = "Profile Picture",
+                modifier = Modifier
+                    .size(120.dp)
+                    .clip(CircleShape)
+                    .border(2.dp, Color.Gray, CircleShape),
+                contentScale = ContentScale.Crop
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Text Name
-            Text(
-                text = "Name",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Left
-            )
-            //hiển thị tên
-            Text(
-                text = currentUser?.displayName ?: "Chưa cập nhật tên",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(4.dp)
-            )
-
-            // Text Email
-            Text(
-                text = "Email",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Left
-            )
-            // Hiển thị email
-            Text(
-                text = currentUser?.email ?: "Chưa cập nhật email",
-                fontSize = 16.sp,
-                modifier = Modifier.padding(4.dp)
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Text Day of birth
-            Text(
-                text = "Day of Birth",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Left,
-                modifier = Modifier.padding(horizontal = 18.dp)
-            )
-            // hiển thị ngày sinh
-            Text(
-                text = "Ngày sinh: ${birthday}",
-                fontSize = 16.sp,
-                modifier = Modifier.padding(4.dp)
-            )
+            IconButton(
+                onClick = {
+                    showDialog = true   // hiển thị thông báo, chưa có làm
+                },
+                modifier = Modifier
+                    .size(32.dp)
+                    .background(Color.White, CircleShape)
+                    .border(1.dp, Color.Gray, CircleShape)
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.PhotoCamera,
+                    contentDescription = "Change Avatar",
+                    tint = Color.Gray,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
         }
 
+        Spacer(modifier = Modifier.height(20.dp))
+
+        // Input fields from Firebase
+        ProfileTextField(label = "Name", value = user?.displayName ?: "...")
+        ProfileTextField(label = "Email", value = user?.email ?: "...")
+        ProfileTextField(label = "Date of Birth", value = "01/01/1990", isDropdown = true)
+
         Spacer(modifier = Modifier.weight(1f))
-        // Back Button
+
+        // Logout button
         Button(
-            onClick = OnBackClick,
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF007BFF)),
+            onClick = {
+                auth.signOut()  // không hoạt động, why??????
+                navController.popBackStack()
+            },
             modifier = Modifier
+                .fillMaxWidth()
                 .height(50.dp)
-                .fillMaxWidth(0.8f),
+                .clip(RoundedCornerShape(25.dp)),
+            colors = ButtonDefaults.buttonColors(Color(0xFF2196F3))
         ) {
-            Text(
-                text = "Back", color = Color.White,
-                fontSize = 20.sp,)
+            Text("BACK", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
         }
     }
 }
 
-@Preview(showBackground = true)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreenPreview() {
-    Test_firebase_w5Theme {
-        HomeScreen(
-            OnBackClick = {},
-            navController = rememberNavController(),
-            authViewModel = viewModel()
+fun ProfileTextField(label: String, value: String, isDropdown: Boolean = false) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = label,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 16.sp,
+            color = Color.Black
         )
+        Spacer(modifier = Modifier.height(4.dp))
+
+        OutlinedTextField(
+            value = value,
+            onValueChange = {},
+            readOnly = true,
+            textStyle = LocalTextStyle.current.copy(
+                fontSize = 14.sp,
+                color = Color.Black
+            ),
+            trailingIcon = if (isDropdown) {
+                { Icon(Icons.Default.ArrowDropDown, contentDescription = "Dropdown", tint = Color.Black) }
+            } else null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp),
+            shape = RoundedCornerShape(8.dp),
+            colors = OutlinedTextFieldDefaults.colors(
+                disabledTextColor = Color.Black,
+                disabledBorderColor = Color.Gray,
+                disabledPlaceholderColor = Color.Gray.copy(alpha = 0.8f)
+            )
+        )
+        Spacer(modifier = Modifier.height(12.dp))
     }
 }

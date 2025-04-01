@@ -77,4 +77,13 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     //icon
     implementation("io.coil-kt:coil-compose:2.4.0")
+
+    implementation("androidx.navigation:navigation-compose:2.7.6")
+    // Jetpack Compose BOM
+    implementation(platform("androidx.compose:compose-bom:2024.03.00"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material3:material3:1.2.0")
+    implementation("androidx.compose.material:material-icons-extended:1.5.0")
 }
